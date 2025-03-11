@@ -3,14 +3,19 @@ pipeline{
 
 
     stages{
-        stage('checkout'){
+        stage('Build'){
             steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'github access', url: 'https://github.com/sreenivas449/java-hello-world-with-maven.git']]])
+                sh 'mvn -B -DskipTests clean package'
             }
         }
-        stage('build'){
+        stage('Test'){
             steps{
-               bat 'mvn package'
+               sh 'mvn test'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
             }
         }
     }
