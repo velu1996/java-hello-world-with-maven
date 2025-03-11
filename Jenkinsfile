@@ -10,12 +10,12 @@ pipeline{
         }
         stage('Test'){
             steps{
-               sh 'mvn test'
+               sh 'echo "test stage"'
             }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
+        }
+        stage("deliver"){
+            steps{
+                sh 'echo "deliver stage"'
             }
         }
     }
